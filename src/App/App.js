@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Reservations from '../Reservations/Reservations.js'
+import Form from '../Form/Form.js'
 
 
 class App extends Component {
@@ -41,6 +42,10 @@ class App extends Component {
       .catch(err => new Error(err))
   }
 
+  addReservation(newReservation) {
+    this.setState(...this.state.reservations, newReservation)
+  }
+
   render() {
     return (
       <div className="App">
@@ -49,6 +54,7 @@ class App extends Component {
 
         </div>
         <div className='resy-container'>
+          <Form addReservation={addReservation} />
           <Reservations reservations={this.state.reservations} />
         </div>
       </div>
