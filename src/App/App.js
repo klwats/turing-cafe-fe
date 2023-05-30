@@ -1,7 +1,45 @@
 import React, { Component } from 'react';
 import './App.css';
+import Reservations from './Reservations'
 
 class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      reservations: []
+    }
+
+  }
+
+  componentDidMount() {
+    this.fetchReservations()
+      .then((data) => this.setState({
+        reservations: data
+      }, () => {
+        console.log('array', this.state.reservations)
+
+      }
+      ))
+
+    console.log('fetch', this.fetchReservations())
+  }
+
+
+  fetchReservations() {
+    return fetch('http://localhost:3001/api/v1/reservations')
+      .then(res => {
+        console.log('res', res)
+        if (!res.ok) {
+          throw new Error(`Please try again. There is an error.`)
+        } else {
+          return res.json()
+        }
+      })
+      // .then((data) => this.setState({ reservations: data }))
+
+      .catch(err => new Error(err))
+  }
+
   render() {
     return (
       <div className="App">
@@ -10,11 +48,14 @@ class App extends Component {
 
         </div>
         <div className='resy-container'>
-          
+          <Reservations reservations={this.state.reservations} />
         </div>
       </div>
     )
   }
+
+
+
 }
 
 export default App;
